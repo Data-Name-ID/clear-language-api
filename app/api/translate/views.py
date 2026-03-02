@@ -13,7 +13,7 @@ router = APIRouter(prefix="/translate", tags=["Перевод на ясный я
 )
 async def translate(store: StoreDep, data: TranslateRequest) -> TranslateResponse:
     try:
-        translated_text = await store.translate_manager.translate(text=data.text)
-        return TranslateResponse(translated_text=translated_text)
+        result = await store.translate_manager.translate(text=data.text)
+        return TranslateResponse(translated_text=result.translated_text)
     except Exception as exc:
         raise HTTPException(status=500, detail=str(exc)) from exc

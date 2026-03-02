@@ -1,5 +1,6 @@
 from openai import AsyncOpenAI
 
+from app.api.translate.schemas import TranslationResult
 from app.core.llm import BaseLLMManager
 from app.core.store import Store
 
@@ -14,14 +15,13 @@ class OpenAIManager(BaseLLMManager):
         )
         self._model_name = self.store.config.openai.model_name
 
-    async def complete(self, text: str) -> str:
-        response = await self._client.chat.completions.create(
+    async def complete(self, text: str) -> TranslationResult:
+        response = await self._client.responses.parse(
             model=self._model_name,
-            messages=[
-                {"role": "system", "content": self.store.config.mc.instruction},
-                {"role": "user", "content": text},
-            ],
+            instructions=self.store.config.mc.instruction,
+            input=text,
+            text_format=TranslationResult,
             temperature=self.store.config.mc.temperature,
             timeout=self.store.config.mc.timeout,
         )
-        return response.choices[0].message.content
+        return response.output_parsed
