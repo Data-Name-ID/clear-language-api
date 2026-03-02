@@ -27,9 +27,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
         environment=store.config.sentry.environment,
     )
 
-    await app.state.store.db.connect()
+    # await app.state.store.db.connect()
     yield
-    await app.state.store.db.disconnect()
+    # await app.state.store.db.disconnect()
 
 
 description = Path("app/API.md").read_text(encoding="utf8")
