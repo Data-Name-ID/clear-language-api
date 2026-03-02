@@ -1,3 +1,4 @@
+from enum import StrEnum
 from functools import cached_property
 from pathlib import Path
 
@@ -8,6 +9,11 @@ from sqlalchemy.engine.url import URL
 from app.core.promt import SYSTEM_PROMPT
 
 BASE_DIR = Path(__file__).parent.parent  # app
+
+
+class LLMProvider(StrEnum):
+    YANDEX = "yandex"
+    OPENAI = "openai"
 
 
 class StaticConfig:
@@ -56,14 +62,20 @@ class SentryConfig(BaseModel):
 
 
 class YandexConfig(BaseModel):
-    folder_id: str
-    oauth_token: str
+    folder_id: str = ""
+    oauth_token: str = ""
     model_name: str = "yandexgpt"
 
 
+class OpenAIConfig(BaseModel):
+    api_key: str = ""
+    base_url: str = "https://api.openai.com/v1"
+    model_name: str = "gpt-4o-mini"
+
+
 class ModelConfig(BaseModel):
+    provider: LLMProvider = LLMProvider.YANDEX
     temperature: float = 0.6
-    max_tokens: int = 2000
     instruction: str = SYSTEM_PROMPT
     timeout: int = 360
 
@@ -80,6 +92,7 @@ class Config(BaseSettings):
     app: AppConfig
     db: DatabaseConfig
     sentry: SentryConfig
-    yc: YandexConfig
+    yc: YandexConfig = YandexConfig()
+    openai: OpenAIConfig = OpenAIConfig()
     mc: ModelConfig
     static_dir: Path = BASE_DIR / "static"

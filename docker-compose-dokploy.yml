@@ -1,9 +1,4 @@
 services:
-  migrate:
-    build:
-      context: .
-      target: migrate
-
   backend:
     build:
       context: .

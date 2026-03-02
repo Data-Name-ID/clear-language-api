@@ -16,6 +16,7 @@ dependencies = [
     "sentry-sdk[fastapi]>=2.28.0",
     "sqlalchemy>=2.0.40",
     "yandex-cloud-ml-sdk>=0.17.0",
+    "openai>=1.0.0",
 ]
 
 [dependency-groups]
