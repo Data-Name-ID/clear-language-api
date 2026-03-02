@@ -16,4 +16,4 @@ async def translate(store: StoreDep, data: TranslateRequest) -> TranslateRespons
         result = await store.translate_manager.translate(text=data.text)
         return TranslateResponse(translated_text=result.translated_text)
     except Exception as exc:
-        raise HTTPException(status=500, detail=str(exc)) from exc
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
