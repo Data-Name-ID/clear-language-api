@@ -5,6 +5,3 @@ services:
       target: web
     ports:
       - ${BACKEND__RUN__PORT}:${BACKEND__RUN__PORT}
-    depends_on:
-      migrate:
-        condition: service_completed_successfully
