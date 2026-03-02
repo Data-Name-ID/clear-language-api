@@ -19,7 +19,7 @@ class OpenAIManager(BaseLLMManager):
         response = await self._client.responses.parse(
             model=self._model_name,
             instructions=self.store.config.mc.instruction,
-            input=text,
+            input=[{"role": "user", "content": text}],
             text_format=TranslationResult,
             temperature=self.store.config.mc.temperature,
             timeout=self.store.config.mc.timeout,
